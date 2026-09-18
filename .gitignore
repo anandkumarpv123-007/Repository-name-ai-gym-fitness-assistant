@@ -118,3 +118,8 @@ desktop.ini
 *.temp
 *.swp
 *.swo
+
+
+*.joblib
+*.pkl
+models/

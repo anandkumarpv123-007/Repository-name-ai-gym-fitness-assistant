@@ -140,3 +140,98 @@ If another developer/AI continues this project:
 The project has only been initialized.
 
 No application functionality has been implemented yet.
+
+update - 2
+
+# AI Gym & Fitness Assistant — Project State
+
+## Project Status
+
+**Current Phase:** Phase 1 — Foundation  
+**Current Task:** Authentication Foundation  
+**Status:** IN PROGRESS
+
+---
+
+## Source of Truth
+
+The following documents define the project scope and architecture:
+
+1. Original AI Gym & Fitness Assistant project specification
+2. AI Gym & Fitness Assistant — Master Implementation Guide
+3. PROJECT_STATE.md
+
+### Important Rule
+
+Do NOT reduce the project to an MVP/prototype.
+
+The project must be developed as a real, modular, testable system.
+
+If a technology is new to the developer, use:
+
+**Learn → Build → Test → Integrate → Document → Continue**
+
+---
+
+# Core Project Modules
+
+1. AI Gym Trainer
+2. Pose-to-Performance Analyzer
+3. AI Dietician & Calorie Coach
+4. AI Fitness Habit Tracker
+5. Virtual Gym Buddy
+6. Smart Gym Assistant / IoT
+7. Gym Recommender & Planner
+
+---
+
+# Planned Technology Stack
+
+## Frontend
+- React.js / Next.js
+
+## Backend
+- Python
+- FastAPI
+
+## AI / ML
+- TensorFlow
+- PyTorch
+- OpenCV
+- MediaPipe
+- scikit-learn
+
+## Database
+- PostgreSQL
+
+## IoT
+- MQTT
+- Node-RED
+
+## Conversational AI
+- LLM
+- NLP
+- Hugging Face / OpenAI APIs as appropriate
+
+## Storage
+- AWS S3 / Firebase
+
+## Analytics
+- Plotly / D3.js
+
+---
+
+# Development Environment
+
+- OS: Windows 11
+- Python: 3.14.2
+- Node.js: v24.19.0
+- npm: 11.17.0
+- Git: 2.55.0.windows.2
+- PostgreSQL: 18.6
+- Docker: Not installed
+
+Project directory:
+
+```text
+C:\Users\anand\AI-Gym-Fitness-Assistant

@@ -1,12 +1,13 @@
-from models.user import User
-from fastapi import APIRouter, Depends, HTTPException , Form
+from fastapi import APIRouter, Depends, HTTPException, Form
+from fastapi.security import OAuth2PasswordBearer
 from sqlalchemy.orm import Session
 
 from database import SessionLocal
+from models.user import User
+from models.profile import Profile
 from schemas.auth import UserLogin, UserRegister, UserProfileUpdate
 from auth.security import hash_password, verify_password
 from auth.token import create_access_token, verify_access_token
-from fastapi.security import OAuth2PasswordBearer
 
 
 router = APIRouter(
@@ -18,9 +19,9 @@ oauth2_scheme = OAuth2PasswordBearer(
     tokenUrl="/auth/login"
 )
 
+
 def get_db():
     db = SessionLocal()
-
     try:
         yield db
     finally:
@@ -30,7 +31,7 @@ def get_db():
 def get_current_user(
     token: str = Depends(oauth2_scheme),
     db: Session = Depends(get_db)
-):
+) -> User:
     user_id = verify_access_token(token)
 
     user = (
@@ -46,6 +47,63 @@ def get_current_user(
         )
 
     return user
+
+
+def serialize_user_profile(user: User) -> dict:
+    """Helper to serialize user account and profile data using user.profile."""
+    profile = user.profile
+    return {
+        "id": user.id,
+        "name": user.name,
+        "email": user.email,
+        "date_of_birth": profile.date_of_birth if profile else None,
+        "gender": profile.gender if profile else None,
+        "height_cm": profile.height_cm if profile else None,
+        "weight_kg": profile.weight_kg if profile else None,
+        "fitness_goal": profile.fitness_goal if profile else None,
+        "activity_level": profile.activity_level if profile else None,
+        "dietary_preference": profile.dietary_preference if profile else None
+    }
+
+
+def update_or_create_user_profile(
+    user: User,
+    profile_data: UserProfileUpdate,
+    db: Session
+) -> dict:
+    """Helper to update an existing Profile or create a new one linked to user."""
+    profile = user.profile
+    if profile is None:
+        profile = db.query(Profile).filter(Profile.user_id == user.id).first()
+
+    update_fields = profile_data.model_dump(exclude_unset=True)
+
+    if profile is None:
+        profile = Profile(user_id=user.id, **update_fields)
+        db.add(profile)
+    else:
+        for field, value in update_fields.items():
+            setattr(profile, field, value)
+
+    db.commit()
+    db.refresh(profile)
+    db.refresh(user)
+
+    return {
+        "message": "Profile updated successfully",
+        "profile": {
+            "id": user.id,
+            "name": user.name,
+            "email": user.email,
+            "date_of_birth": profile.date_of_birth,
+            "gender": profile.gender,
+            "height_cm": profile.height_cm,
+            "weight_kg": profile.weight_kg,
+            "fitness_goal": profile.fitness_goal,
+            "activity_level": profile.activity_level,
+            "dietary_preference": profile.dietary_preference
+        }
+    }
 
 
 @router.post("/register")
@@ -68,9 +126,9 @@ def register_user(
     hashed_password = hash_password(user.password)
 
     new_user = User(
-    name=user.name,
-    email=user.email,
-    password_hash=hashed_password
+        name=user.name,
+        email=user.email,
+        password_hash=hashed_password
     )
 
     db.add(new_user)
@@ -83,6 +141,7 @@ def register_user(
         "name": new_user.name,
         "email": new_user.email
     }
+
 
 @router.post("/login")
 def login_user(
@@ -121,52 +180,20 @@ def login_user(
         "token_type": "bearer"
     }
 
+
+# Compatibility alias: GET /auth/me
 @router.get("/me")
 def get_my_profile(
     current_user: User = Depends(get_current_user)
 ):
-    return {
-        "id": current_user.id,
-        "name": current_user.name,
-        "email": current_user.email,
-        "date_of_birth": current_user.date_of_birth,
-        "gender": current_user.gender,
-        "height_cm": current_user.height_cm,
-        "weight_kg": current_user.weight_kg,
-        "fitness_goal": current_user.fitness_goal,
-        "activity_level": current_user.activity_level,
-        "dietary_preference": current_user.dietary_preference
-    }
+    return serialize_user_profile(current_user)
 
+
+# Compatibility alias: PUT /auth/profile
 @router.put("/profile")
 def update_profile(
     profile: UserProfileUpdate,
     current_user: User = Depends(get_current_user),
     db: Session = Depends(get_db)
 ):
-    current_user.date_of_birth = profile.date_of_birth
-    current_user.gender = profile.gender
-    current_user.height_cm = profile.height_cm
-    current_user.weight_kg = profile.weight_kg
-    current_user.fitness_goal = profile.fitness_goal
-    current_user.activity_level = profile.activity_level
-    current_user.dietary_preference = profile.dietary_preference
-
-    db.commit()
-    db.refresh(current_user)
-
-    return {
-        "message": "Profile updated successfully",
-        "profile": {
-            "id": current_user.id,
-            "name": current_user.name,
-            "email": current_user.email,
-            "date_of_birth": current_user.date_of_birth,
-            "gender": current_user.gender,
-            "height_cm": current_user.height_cm,
-            "weight_kg": current_user.weight_kg,
-            "fitness_goal": current_user.fitness_goal,
-            "activity_level": current_user.activity_level,
-            "dietary_preference": current_user.dietary_preference
-        }
-    }
+    return update_or_create_user_profile(current_user, profile, db)

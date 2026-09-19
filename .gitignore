@@ -123,3 +123,4 @@ desktop.ini
 *.joblib
 *.pkl
 models/
+!backend/models/

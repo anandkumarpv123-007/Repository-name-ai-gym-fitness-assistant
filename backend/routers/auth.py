@@ -5,7 +5,7 @@ from sqlalchemy.orm import Session
 from database import SessionLocal
 from models.user import User
 from models.profile import Profile
-from schemas.auth import UserLogin, UserRegister, UserProfileUpdate
+from schemas.auth import UserRegister, UserProfileUpdate
 from auth.security import hash_password, verify_password
 from auth.token import create_access_token, verify_access_token
 

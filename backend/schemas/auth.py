@@ -12,6 +12,7 @@ class UserLogin(BaseModel):
     email: EmailStr
     password: str
 
+
 class UserProfileUpdate(BaseModel):
     date_of_birth: datetime | None = None
     gender: str | None = None

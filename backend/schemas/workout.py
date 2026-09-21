@@ -99,3 +99,55 @@ class PerformanceSummaryResponse(BaseModel):
     recurring_issue: str
     next_week_focus: str
     recent_sessions: List[Dict]
+
+
+# =====================================================================
+# Phase 3 — Weekly Progress & Longitudinal Intelligence Schemas
+# =====================================================================
+
+class ReportingPeriod(BaseModel):
+    start_date: str
+    end_date: str
+    days: int
+
+
+class ExerciseStatItem(BaseModel):
+    exercise_id: int
+    name: str
+    category: str
+    sessions: int
+    total_reps: int
+    average_score: Optional[float]
+
+
+class FormWarningItem(BaseModel):
+    violation_code: str
+    display_name: str
+    count: int
+    percentage: float
+
+
+class SessionTrendPoint(BaseModel):
+    session_id: int
+    date: str
+    exercise: str
+    score: Optional[float]
+    reps: int
+    duration_seconds: Optional[float]
+    calories: Optional[float]
+
+
+class WeeklyPerformanceResponse(BaseModel):
+    reporting_period: ReportingPeriod
+    total_sessions: int
+    total_reps: int
+    average_score: Optional[float]
+    trend: str  # "improving", "declining", "stable", "insufficient_history"
+    score_delta: Optional[float]
+    strongest_improvement: str
+    recurring_form_issue: str
+    next_week_focus: str
+    exercise_stats: List[ExerciseStatItem]
+    form_warnings: List[FormWarningItem]
+    session_history: List[SessionTrendPoint]
+

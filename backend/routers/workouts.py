@@ -22,7 +22,9 @@ from schemas.workout import (
     WorkoutDetailResponse,
     PoseMetricDetail,
     PerformanceSummaryResponse,
+    WeeklyPerformanceResponse,
 )
+from services.performance_service import PerformanceService
 
 router = APIRouter(tags=["Workouts & Performance"])
 
@@ -421,3 +423,31 @@ def get_performance_summary(
         next_week_focus=next_focus,
         recent_sessions=recent_list[-10:],
     )
+
+
+# =====================================================================
+# 5. Phase 3 — Weekly Performance Intelligence & Longitudinal Reports
+# =====================================================================
+
+@router.get("/performance/weekly", response_model=WeeklyPerformanceResponse)
+def get_weekly_performance_report(
+    days: int = 7,
+    current_user: User = Depends(get_current_user),
+    db: Session = Depends(get_db),
+):
+    """
+    Longitudinal Weekly Performance Report (Phase 3).
+    Aggregates workout sessions, repetition volume, average score,
+    deterministic trend, strongest improvement area, recurring form issues,
+    and actionable coaching focus scoped strictly to the authenticated user.
+    """
+    if days < 0:
+        days = 7
+
+    report = PerformanceService.get_weekly_performance_report(
+        db=db,
+        user_id=current_user.id,
+        days=days,
+    )
+    return report
+

@@ -71,6 +71,13 @@ huggingface_cache/
 *.onnx
 *.h5
 *.keras
+*.task
+
+# Generated CV/ML demo and test output media
+*_output.png
+*_annotated.png
+demo_output.png
+webcam_test.png
 
 
 # ==============================

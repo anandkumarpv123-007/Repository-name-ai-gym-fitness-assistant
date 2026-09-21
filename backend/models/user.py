@@ -1,5 +1,5 @@
 from datetime import datetime
-from typing import TYPE_CHECKING
+from typing import TYPE_CHECKING, List
 
 from sqlalchemy import DateTime, Integer, String
 from sqlalchemy.orm import Mapped, mapped_column, relationship
@@ -8,6 +8,7 @@ from database import Base
 
 if TYPE_CHECKING:
     from models.profile import Profile
+    from models.workout_session import WorkoutSession
 
 
 class User(Base):
@@ -27,5 +28,12 @@ class User(Base):
         "Profile",
         back_populates="user",
         uselist=False,
+        cascade="all, delete-orphan",
+    )
+
+    # 1-to-many Relationship: User has many WorkoutSessions
+    workout_sessions: Mapped[List["WorkoutSession"]] = relationship(
+        "WorkoutSession",
+        back_populates="user",
         cascade="all, delete-orphan",
     )

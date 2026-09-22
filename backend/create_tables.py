@@ -9,6 +9,7 @@ from models import (
     NutritionTarget,
     NutritionLog,
     DietPlan,
+    BuddyMessage,
 )
 
 Base.metadata.create_all(bind=engine)

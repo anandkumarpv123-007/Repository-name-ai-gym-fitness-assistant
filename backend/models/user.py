@@ -9,6 +9,7 @@ from database import Base
 if TYPE_CHECKING:
     from models.profile import Profile
     from models.workout_session import WorkoutSession
+    from models.nutrition import NutritionTarget, NutritionLog, DietPlan
 
 
 class User(Base):
@@ -34,6 +35,28 @@ class User(Base):
     # 1-to-many Relationship: User has many WorkoutSessions
     workout_sessions: Mapped[List["WorkoutSession"]] = relationship(
         "WorkoutSession",
+        back_populates="user",
+        cascade="all, delete-orphan",
+    )
+
+    # 1-to-1 Relationship: User has one NutritionTarget
+    nutrition_target: Mapped["NutritionTarget | None"] = relationship(
+        "NutritionTarget",
+        back_populates="user",
+        uselist=False,
+        cascade="all, delete-orphan",
+    )
+
+    # 1-to-many Relationship: User has many NutritionLogs
+    nutrition_logs: Mapped[List["NutritionLog"]] = relationship(
+        "NutritionLog",
+        back_populates="user",
+        cascade="all, delete-orphan",
+    )
+
+    # 1-to-many Relationship: User has many DietPlans
+    diet_plans: Mapped[List["DietPlan"]] = relationship(
+        "DietPlan",
         back_populates="user",
         cascade="all, delete-orphan",
     )

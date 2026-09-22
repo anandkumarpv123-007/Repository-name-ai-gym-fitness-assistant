@@ -6,6 +6,9 @@ from models import (
     WorkoutSession,
     WorkoutExercise,
     PoseMetric,
+    NutritionTarget,
+    NutritionLog,
+    DietPlan,
 )
 
 Base.metadata.create_all(bind=engine)

@@ -4,6 +4,7 @@ from models.exercise import Exercise
 from models.workout_session import WorkoutSession
 from models.workout_exercise import WorkoutExercise
 from models.pose_metric import PoseMetric
+from models.nutrition import NutritionTarget, NutritionLog, DietPlan
 
 __all__ = [
     "User",
@@ -12,4 +13,7 @@ __all__ = [
     "WorkoutSession",
     "WorkoutExercise",
     "PoseMetric",
+    "NutritionTarget",
+    "NutritionLog",
+    "DietPlan",
 ]

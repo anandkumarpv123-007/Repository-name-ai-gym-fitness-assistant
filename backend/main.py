@@ -6,6 +6,7 @@ from routers.users import router as users_router
 from routers.workouts import router as workouts_router
 from routers.nutrition import router as nutrition_router
 from routers.buddy import router as buddy_router
+from routers.habit import router as habit_router
 
 
 app = FastAPI(title="AI Gym & Fitness Assistant")
@@ -32,3 +33,4 @@ app.include_router(users_router)
 app.include_router(workouts_router)
 app.include_router(nutrition_router)
 app.include_router(buddy_router)
+app.include_router(habit_router)

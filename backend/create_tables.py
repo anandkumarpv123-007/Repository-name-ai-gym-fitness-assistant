@@ -10,6 +10,7 @@ from models import (
     NutritionLog,
     DietPlan,
     BuddyMessage,
+    HabitPrediction,
 )
 
 Base.metadata.create_all(bind=engine)

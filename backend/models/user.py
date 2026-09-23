@@ -11,6 +11,7 @@ if TYPE_CHECKING:
     from models.workout_session import WorkoutSession
     from models.nutrition import NutritionTarget, NutritionLog, DietPlan
     from models.buddy import BuddyMessage
+    from models.habit import HabitPrediction
 
 
 class User(Base):
@@ -65,6 +66,13 @@ class User(Base):
     # 1-to-many Relationship: User has many BuddyMessages
     buddy_messages: Mapped[List["BuddyMessage"]] = relationship(
         "BuddyMessage",
+        back_populates="user",
+        cascade="all, delete-orphan",
+    )
+
+    # 1-to-many Relationship: User has many HabitPredictions
+    habit_predictions: Mapped[List["HabitPrediction"]] = relationship(
+        "HabitPrediction",
         back_populates="user",
         cascade="all, delete-orphan",
     )

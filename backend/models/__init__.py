@@ -6,6 +6,7 @@ from models.workout_exercise import WorkoutExercise
 from models.pose_metric import PoseMetric
 from models.nutrition import NutritionTarget, NutritionLog, DietPlan
 from models.buddy import BuddyMessage
+from models.habit import HabitPrediction
 
 __all__ = [
     "User",
@@ -18,4 +19,5 @@ __all__ = [
     "NutritionLog",
     "DietPlan",
     "BuddyMessage",
+    "HabitPrediction",
 ]

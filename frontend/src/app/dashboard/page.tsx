@@ -118,6 +118,13 @@ export default function Dashboard() {
           </button>
 
           <button
+            onClick={() => router.push("/habit")}
+            className="rounded-lg border border-indigo-600/50 bg-indigo-950/40 px-4 py-2 text-sm font-medium text-indigo-300 hover:bg-indigo-900/60 transition"
+          >
+            Habit Tracker
+          </button>
+
+          <button
             onClick={() => router.push("/reports")}
             className="rounded-lg border border-teal-600/50 bg-teal-950/40 px-4 py-2 text-sm font-medium text-teal-300 hover:bg-teal-900/60 transition"
           >

@@ -8,6 +8,7 @@ from routers.nutrition import router as nutrition_router
 from routers.buddy import router as buddy_router
 from routers.habit import router as habit_router
 from routers.planner import router as planner_router
+from routers.iot import router as iot_router
 
 
 app = FastAPI(title="AI Gym & Fitness Assistant")
@@ -36,3 +37,4 @@ app.include_router(nutrition_router)
 app.include_router(buddy_router)
 app.include_router(habit_router)
 app.include_router(planner_router)
+app.include_router(iot_router)

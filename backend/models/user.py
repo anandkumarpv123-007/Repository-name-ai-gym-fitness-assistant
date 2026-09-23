@@ -13,6 +13,7 @@ if TYPE_CHECKING:
     from models.buddy import BuddyMessage
     from models.habit import HabitPrediction
     from models.planner import WorkoutPlan
+    from models.iot import IoTDevice, IoTTelemetry, IoTCommandLog
 
 
 class User(Base):
@@ -81,6 +82,27 @@ class User(Base):
     # 1-to-many Relationship: User has many WorkoutPlans
     workout_plans: Mapped[List["WorkoutPlan"]] = relationship(
         "WorkoutPlan",
+        back_populates="user",
+        cascade="all, delete-orphan",
+    )
+
+    # 1-to-many Relationship: User has many IoTDevices
+    iot_devices: Mapped[List["IoTDevice"]] = relationship(
+        "IoTDevice",
+        back_populates="user",
+        cascade="all, delete-orphan",
+    )
+
+    # 1-to-many Relationship: User has many IoTTelemetry logs
+    iot_telemetry: Mapped[List["IoTTelemetry"]] = relationship(
+        "IoTTelemetry",
+        back_populates="user",
+        cascade="all, delete-orphan",
+    )
+
+    # 1-to-many Relationship: User has many IoTCommandLogs
+    iot_commands: Mapped[List["IoTCommandLog"]] = relationship(
+        "IoTCommandLog",
         back_populates="user",
         cascade="all, delete-orphan",
     )

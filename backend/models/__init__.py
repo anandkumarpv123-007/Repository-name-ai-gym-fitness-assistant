@@ -9,6 +9,7 @@ from models.buddy import BuddyMessage
 from models.habit import HabitPrediction
 from models.gym import Gym
 from models.planner import WorkoutPlan, WorkoutPlanItem
+from models.iot import IoTDevice, IoTTelemetry, IoTCommandLog
 
 __all__ = [
     "User",
@@ -25,5 +26,8 @@ __all__ = [
     "Gym",
     "WorkoutPlan",
     "WorkoutPlanItem",
+    "IoTDevice",
+    "IoTTelemetry",
+    "IoTCommandLog",
 ]
 

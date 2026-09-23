@@ -118,6 +118,13 @@ export default function Dashboard() {
           </button>
 
           <button
+            onClick={() => router.push("/planner")}
+            className="rounded-lg border border-purple-600/50 bg-purple-950/40 px-4 py-2 text-sm font-medium text-purple-300 hover:bg-purple-900/60 transition"
+          >
+            Gym & Planner
+          </button>
+
+          <button
             onClick={() => router.push("/habit")}
             className="rounded-lg border border-indigo-600/50 bg-indigo-950/40 px-4 py-2 text-sm font-medium text-indigo-300 hover:bg-indigo-900/60 transition"
           >

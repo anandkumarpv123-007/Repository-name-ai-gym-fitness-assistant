@@ -11,6 +11,9 @@ from models import (
     DietPlan,
     BuddyMessage,
     HabitPrediction,
+    Gym,
+    WorkoutPlan,
+    WorkoutPlanItem,
 )
 
 Base.metadata.create_all(bind=engine)

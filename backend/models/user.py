@@ -12,6 +12,7 @@ if TYPE_CHECKING:
     from models.nutrition import NutritionTarget, NutritionLog, DietPlan
     from models.buddy import BuddyMessage
     from models.habit import HabitPrediction
+    from models.planner import WorkoutPlan
 
 
 class User(Base):
@@ -73,6 +74,13 @@ class User(Base):
     # 1-to-many Relationship: User has many HabitPredictions
     habit_predictions: Mapped[List["HabitPrediction"]] = relationship(
         "HabitPrediction",
+        back_populates="user",
+        cascade="all, delete-orphan",
+    )
+
+    # 1-to-many Relationship: User has many WorkoutPlans
+    workout_plans: Mapped[List["WorkoutPlan"]] = relationship(
+        "WorkoutPlan",
         back_populates="user",
         cascade="all, delete-orphan",
     )

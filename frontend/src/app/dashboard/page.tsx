@@ -160,6 +160,13 @@ export default function Dashboard() {
           </button>
 
           <button
+            onClick={() => router.push("/storage")}
+            className="rounded-lg border border-teal-600/50 bg-teal-950/40 px-4 py-2 text-sm font-medium text-teal-300 hover:bg-teal-900/60 transition"
+          >
+            Media & Storage
+          </button>
+
+          <button
             onClick={() => router.push("/history")}
             className="rounded-lg border border-slate-700 bg-slate-900 px-4 py-2 text-sm font-medium hover:bg-slate-800 transition"
           >

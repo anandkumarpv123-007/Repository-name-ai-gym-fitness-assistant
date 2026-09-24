@@ -106,3 +106,10 @@ class User(Base):
         back_populates="user",
         cascade="all, delete-orphan",
     )
+
+    # 1-to-many Relationship: User has many MediaAssets
+    media_assets: Mapped[List["MediaAsset"]] = relationship(
+        "MediaAsset",
+        back_populates="user",
+        cascade="all, delete-orphan",
+    )

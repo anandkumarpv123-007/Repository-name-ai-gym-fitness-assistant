@@ -10,6 +10,7 @@ from models.habit import HabitPrediction
 from models.gym import Gym
 from models.planner import WorkoutPlan, WorkoutPlanItem
 from models.iot import IoTDevice, IoTTelemetry, IoTCommandLog
+from models.media import MediaAsset
 
 __all__ = [
     "User",
@@ -29,5 +30,6 @@ __all__ = [
     "IoTDevice",
     "IoTTelemetry",
     "IoTCommandLog",
+    "MediaAsset",
 ]
 

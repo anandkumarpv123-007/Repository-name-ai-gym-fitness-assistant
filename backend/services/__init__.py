@@ -6,6 +6,7 @@ from .workout_planner_service import WorkoutPlannerService
 from .mqtt_service import MQTTService
 from .smart_gym_service import SmartGymService
 from .analytics_service import AnalyticsService
+from .storage_service import StorageService
 
 __all__ = [
     "PerformanceService",
@@ -16,6 +17,7 @@ __all__ = [
     "MQTTService",
     "SmartGymService",
     "AnalyticsService",
+    "StorageService",
 ]
 
 

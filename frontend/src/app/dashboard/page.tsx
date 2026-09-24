@@ -125,6 +125,13 @@ export default function Dashboard() {
           </button>
 
           <button
+            onClick={() => router.push("/analytics")}
+            className="rounded-lg border border-purple-600/50 bg-purple-950/40 px-4 py-2 text-sm font-medium text-purple-300 hover:bg-purple-900/60 transition"
+          >
+            Analytics Dashboard
+          </button>
+
+          <button
             onClick={() => router.push("/iot")}
             className="rounded-lg border border-cyan-600/50 bg-cyan-950/40 px-4 py-2 text-sm font-medium text-cyan-300 hover:bg-cyan-900/60 transition"
           >

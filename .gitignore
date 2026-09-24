@@ -53,8 +53,9 @@ pnpm-debug.log*
 *.sqlite
 *.sqlite3
 
-# Local database dumps
+# Local database dumps & uploads
 *.sql.gz
+backend/uploads/
 
 
 # ==============================

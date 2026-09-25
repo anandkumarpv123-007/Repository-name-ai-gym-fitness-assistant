@@ -1,5 +1,7 @@
+from contextlib import asynccontextmanager
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
+from create_tables import init_db
 from routers.health import router as health_router
 from routers.auth import router as auth_router
 from routers.users import router as users_router
@@ -13,7 +15,14 @@ from routers.analytics import router as analytics_router
 from routers.media import router as media_router
 
 
-app = FastAPI(title="AI Gym & Fitness Assistant")
+@asynccontextmanager
+async def lifespan(app: FastAPI):
+    # Initialize all SQLAlchemy database tables and default seeds on startup
+    init_db()
+    yield
+
+
+app = FastAPI(title="AI Gym & Fitness Assistant", lifespan=lifespan)
 
 app.add_middleware(
     CORSMiddleware,

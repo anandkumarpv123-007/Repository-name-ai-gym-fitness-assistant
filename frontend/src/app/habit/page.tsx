@@ -161,7 +161,7 @@ export default function HabitTrackerPage() {
           <div>
             <div className="flex items-center gap-2">
               <span className="rounded-full bg-indigo-900/60 border border-indigo-500 px-3 py-0.5 text-xs font-semibold text-indigo-300">
-                Phase 6 — Behavioral AI
+                Behavioral Consistency Engine
               </span>
             </div>
             <h1 className="text-3xl font-extrabold tracking-tight mt-2 text-white">

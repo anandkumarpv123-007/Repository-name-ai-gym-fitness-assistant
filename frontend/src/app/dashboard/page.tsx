@@ -193,7 +193,7 @@ export default function Dashboard() {
       <section className="mx-auto mt-8 max-w-6xl rounded-2xl border border-blue-900/50 bg-gradient-to-r from-blue-950/40 via-slate-900 to-teal-950/40 p-6 flex flex-col md:flex-row items-center justify-between gap-6">
         <div className="space-y-1">
           <span className="rounded-full bg-blue-900/60 border border-blue-600 px-2.5 py-0.5 text-xs font-semibold text-blue-300">
-            Phase 2 Vision Engine Ready
+            AI Pose Vision Active
           </span>
           <h2 className="text-xl font-bold text-white mt-1">Real-Time AI Fitness Coach</h2>
           <p className="text-xs md:text-sm text-slate-300 max-w-xl">

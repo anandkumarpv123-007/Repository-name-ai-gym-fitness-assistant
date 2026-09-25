@@ -90,7 +90,7 @@ export default function AnalyticsPage() {
               Analytics & Intelligence Dashboard
             </h1>
             <span className="px-2.5 py-0.5 rounded-full text-xs font-semibold bg-purple-950 text-purple-300 border border-purple-800">
-              Phase 9 Complete
+              Advanced Analytics
             </span>
           </div>
           <p className="text-sm text-slate-400 mt-1">
@@ -269,7 +269,7 @@ export default function AnalyticsPage() {
               <p className="text-3xl font-bold text-blue-400">
                 {workouts.avg_performance_score ? `${workouts.avg_performance_score}/100` : "N/A"}
               </p>
-              <p className="text-xs text-slate-400">Based on Phase 3 pose analysis</p>
+              <p className="text-xs text-slate-400">Based on computer vision pose analysis</p>
             </div>
             <div className="rounded-xl border border-blue-900/40 bg-slate-900 p-5 space-y-1">
               <span className="text-xs text-slate-400 uppercase">Performance Trend</span>

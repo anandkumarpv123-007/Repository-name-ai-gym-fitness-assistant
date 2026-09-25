@@ -42,7 +42,8 @@ export default function Login() {
 
       localStorage.setItem("access_token", data.access_token);
 
-      router.push("/dashboard");
+      const redirectUrl = new URLSearchParams(window.location.search).get("redirect") || "/dashboard";
+      router.push(redirectUrl);
 
     } catch (error) {
       if (error instanceof Error) {
@@ -56,9 +57,9 @@ export default function Login() {
   }
 
   return (
-    <main className="flex min-h-screen items-center justify-center bg-slate-950 text-white">
+    <main className="flex min-h-screen items-center justify-center bg-slate-950 text-white p-4">
 
-      <div className="w-full max-w-md rounded-xl border border-slate-800 bg-slate-900 p-8">
+      <div className="w-full max-w-md rounded-xl border border-slate-800 bg-slate-900 p-8 shadow-2xl">
 
         <h1 className="text-3xl font-bold">
           Login
@@ -71,7 +72,7 @@ export default function Login() {
         <form onSubmit={handleLogin} className="mt-8 space-y-5">
 
           <div>
-            <label className="mb-2 block text-sm">
+            <label className="mb-2 block text-sm font-medium">
               Email
             </label>
 
@@ -86,7 +87,7 @@ export default function Login() {
           </div>
 
           <div>
-            <label className="mb-2 block text-sm">
+            <label className="mb-2 block text-sm font-medium">
               Password
             </label>
 
@@ -101,7 +102,7 @@ export default function Login() {
           </div>
 
           {error && (
-            <p className="rounded-lg bg-red-900/30 p-3 text-sm text-red-400">
+            <p className="rounded-lg bg-red-900/30 border border-red-800/50 p-3 text-sm text-red-400">
               {error}
             </p>
           )}
@@ -109,10 +110,17 @@ export default function Login() {
           <button
             type="submit"
             disabled={loading}
-            className="w-full rounded-lg bg-blue-600 px-5 py-3 font-semibold hover:bg-blue-700 disabled:cursor-not-allowed disabled:opacity-50"
+            className="w-full rounded-lg bg-blue-600 px-5 py-3 font-semibold hover:bg-blue-700 transition disabled:cursor-not-allowed disabled:opacity-50"
           >
             {loading ? "Logging in..." : "Login"}
           </button>
+
+          <div className="pt-2 text-center text-sm text-slate-400">
+            Don&apos;t have an account?{" "}
+            <a href="/register" className="font-semibold text-blue-400 hover:text-blue-300 underline">
+              Create account
+            </a>
+          </div>
 
         </form>
       </div>

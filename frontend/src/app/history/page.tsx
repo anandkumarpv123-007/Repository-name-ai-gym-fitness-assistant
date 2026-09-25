@@ -6,13 +6,17 @@ import Link from "next/link";
 import { API_BASE_URL } from "@/api/config";
 
 interface WorkoutHistoryItem {
-  id: number;
+  id?: number;
+  session_id?: number;
   started_at: string;
-  ended_at: string | null;
+  ended_at?: string | null;
   performance_score: number | null;
   calories: number | null;
-  notes: string | null;
-  exercises: {
+  notes?: string | null;
+  exercise_name?: string;
+  sets?: number;
+  reps?: number;
+  exercises?: {
     name: string;
     category: string;
     sets: number;
@@ -21,13 +25,18 @@ interface WorkoutHistoryItem {
 }
 
 interface PerformanceSummary {
-  total_workouts: number;
-  total_reps: number;
-  average_performance_score: number | null;
-  trend: "IMPROVING" | "STABLE" | "DECLINING";
-  score_delta: number | null;
-  top_focus_areas: string[];
-  recent_sessions: {
+  total_workouts?: number;
+  total_sessions?: number;
+  total_reps?: number;
+  average_performance_score?: number | null;
+  average_score?: number | null;
+  trend?: string;
+  score_trend?: string;
+  score_delta?: number | null;
+  top_focus_areas?: string[];
+  next_week_focus?: string;
+  recurring_issue?: string;
+  recent_sessions?: {
     session_id: number;
     date: string;
     exercise: string;
@@ -193,30 +202,32 @@ export default function HistoryPage() {
               <div className="rounded-2xl border border-slate-800 bg-slate-900 p-5">
                 <span className="text-xs text-slate-400 uppercase tracking-wider">Avg Score</span>
                 <p className="mt-2 text-3xl font-bold text-teal-400">
-                  {summary.average_performance_score ? `${summary.average_performance_score}` : "—"}
+                  {summary.average_performance_score ?? summary.average_score ?? "—"}
                   <span className="text-sm font-normal text-slate-500"> / 100</span>
                 </p>
                 <div className="mt-2 flex items-center gap-2">
-                  {getTrendBadge(summary.trend, summary.score_delta)}
+                  {getTrendBadge(summary.trend ?? summary.score_trend ?? "STABLE", summary.score_delta ?? null)}
                 </div>
               </div>
 
               <div className="rounded-2xl border border-slate-800 bg-slate-900 p-5">
                 <span className="text-xs text-slate-400 uppercase tracking-wider">Workouts Logged</span>
-                <p className="mt-2 text-3xl font-bold text-white">{summary.total_workouts}</p>
+                <p className="mt-2 text-3xl font-bold text-white">{summary.total_workouts ?? summary.total_sessions ?? 0}</p>
                 <p className="text-xs text-slate-500 mt-1">Completed sessions</p>
               </div>
 
               <div className="rounded-2xl border border-slate-800 bg-slate-900 p-5">
                 <span className="text-xs text-slate-400 uppercase tracking-wider">Total Repetitions</span>
-                <p className="mt-2 text-3xl font-bold text-white">{summary.total_reps}</p>
+                <p className="mt-2 text-3xl font-bold text-white">{summary.total_reps ?? 0}</p>
                 <p className="text-xs text-slate-500 mt-1">Vision verified reps</p>
               </div>
 
               <div className="rounded-2xl border border-slate-800 bg-slate-900 p-5">
                 <span className="text-xs text-slate-400 uppercase tracking-wider">Top Coaching Focus</span>
                 <p className="mt-2 text-sm font-medium text-slate-200">
-                  {summary.top_focus_areas.length > 0 ? summary.top_focus_areas[0] : "Maintain consistent form"}
+                  {summary.top_focus_areas && summary.top_focus_areas.length > 0
+                    ? summary.top_focus_areas[0]
+                    : summary.next_week_focus || summary.recurring_issue || "Maintain consistent form"}
                 </p>
                 <p className="text-xs text-slate-500 mt-1">Biomechanical priority</p>
               </div>
@@ -251,26 +262,26 @@ export default function HistoryPage() {
                     </tr>
                   </thead>
                   <tbody className="divide-y divide-slate-800/60">
-                    {history.map((item) => {
-                      const exerciseInfo = item.exercises[0] || {
-                        name: "Squat",
-                        category: "Compound",
-                        sets: 1,
-                        reps: 0,
-                      };
+                    {history.map((item, idx) => {
+                      const idKey = item.id || item.session_id || idx;
+                      const exName = item.exercise_name || (item.exercises && item.exercises[0]?.name) || "Squat";
+                      const exCategory = (item.exercises && item.exercises[0]?.category) || "Compound";
+                      const sets = item.sets ?? (item.exercises && item.exercises[0]?.sets) ?? 1;
+                      const reps = item.reps ?? (item.exercises && item.exercises[0]?.reps) ?? 0;
+
                       return (
-                        <tr key={item.id} className="hover:bg-slate-800/40 transition">
+                        <tr key={idKey} className="hover:bg-slate-800/40 transition">
                           <td className="py-3 px-4 font-mono text-xs text-slate-400">
-                            {new Date(item.started_at).toLocaleString()}
+                            {item.started_at ? new Date(item.started_at).toLocaleString() : "Recent"}
                           </td>
                           <td className="py-3 px-4 font-semibold text-white">
-                            {exerciseInfo.name}
+                            {exName}
                             <span className="ml-1.5 text-xs text-slate-500 font-normal">
-                              ({exerciseInfo.category})
+                              ({exCategory})
                             </span>
                           </td>
                           <td className="py-3 px-4">
-                            {exerciseInfo.sets} set{exerciseInfo.sets > 1 ? "s" : ""} × {exerciseInfo.reps} reps
+                            {sets} set{sets > 1 ? "s" : ""} × {reps} reps
                           </td>
                           <td className="py-3 px-4">{getScoreBadge(item.performance_score)}</td>
                           <td className="py-3 px-4 font-mono text-xs text-emerald-400">

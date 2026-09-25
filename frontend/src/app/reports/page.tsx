@@ -163,7 +163,7 @@ export default function ReportsPage() {
         <div>
           <div className="flex items-center gap-3">
             <span className="rounded-md bg-blue-950 border border-blue-700 px-2.5 py-0.5 text-xs font-bold tracking-wide text-blue-300 uppercase">
-              Phase 3 Intelligence
+              Performance Intelligence
             </span>
             <span className="text-xs text-slate-500">Pose-to-Performance Analyzer</span>
           </div>

@@ -375,7 +375,7 @@ export default function NutritionPage() {
         <div>
           <div className="flex items-center gap-3">
             <span className="rounded-md bg-emerald-950 border border-emerald-700 px-2.5 py-0.5 text-xs font-bold tracking-wide text-emerald-300 uppercase">
-              Phase 4 Intelligence
+              AI Nutrition Assistant
             </span>
             <span className="text-xs text-slate-500">Nutrition + AI Dietician</span>
           </div>

@@ -200,7 +200,7 @@ export default function PlannerPage() {
           <div>
             <div className="flex items-center gap-2">
               <span className="rounded-full bg-indigo-900/60 border border-indigo-500 px-3 py-0.5 text-xs font-semibold text-indigo-300">
-                Phase 7 — Recommender & Planner
+                AI Recommender & Planner
               </span>
             </div>
             <h1 className="text-3xl font-extrabold tracking-tight mt-2 text-white">
@@ -280,8 +280,24 @@ export default function PlannerPage() {
                 />
               </div>
 
-              <div className="text-xs text-slate-400">
-                Personalized for goal: <strong className="text-indigo-400 capitalize">{userGoal}</strong>
+              <div className="flex flex-wrap items-center gap-3">
+                <div className="text-xs text-slate-400">
+                  Personalized for goal: <strong className="text-indigo-400 capitalize">{userGoal}</strong>
+                </div>
+                <button
+                  type="button"
+                  onClick={() => {
+                    const queryGoal = userGoal.includes("hypertrophy") || userGoal.includes("strength")
+                      ? "strength gym near me"
+                      : userGoal.includes("weight") || userGoal.includes("fat")
+                      ? "fitness center gym near me"
+                      : "gym near me";
+                    window.open(`https://www.google.com/maps/search/${encodeURIComponent(queryGoal)}`, "_blank");
+                  }}
+                  className="rounded-lg border border-indigo-500/50 bg-indigo-950/60 px-3.5 py-1.5 text-xs font-semibold text-indigo-300 hover:bg-indigo-900/80 transition flex items-center gap-1.5"
+                >
+                  📍 Find More Gyms Near Me (Google Maps)
+                </button>
               </div>
             </div>
 
@@ -368,7 +384,7 @@ export default function PlannerPage() {
               <div>
                 <h3 className="text-lg font-bold text-white">Interactive 7-Day Workout Planner</h3>
                 <p className="text-xs text-slate-400 mt-0.5">
-                  Dynamically structured for your goal with Phase 3 posture & Phase 6 habit adaptivity.
+                  Dynamically structured for your goal with biomechanical posture & behavioral habit adaptivity.
                 </p>
               </div>
 

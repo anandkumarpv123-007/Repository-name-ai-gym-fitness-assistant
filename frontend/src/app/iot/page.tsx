@@ -2,6 +2,7 @@
 
 import React, { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
+import { API_BASE_URL } from "@/api/config";
 
 interface IoTDevice {
   id: number;
@@ -65,6 +66,8 @@ export default function SmartGymPage() {
   const [resistanceInput, setResistanceInput] = useState<number>(50);
   const [actionMessage, setActionMessage] = useState("");
 
+  const getAuthToken = () => localStorage.getItem("access_token") || localStorage.getItem("token");
+
   useEffect(() => {
     fetchInitialIoTData();
   }, []);
@@ -72,17 +75,23 @@ export default function SmartGymPage() {
   async function fetchInitialIoTData() {
     setLoading(true);
     setError("");
-    const token = localStorage.getItem("token");
+    const token = getAuthToken();
     if (!token) {
-      router.push("/login");
+      router.push("/login?redirect=/iot");
       return;
     }
 
     try {
       // 1. Fetch User Devices
-      const devRes = await fetch("http://localhost:8000/iot/devices", {
+      const devRes = await fetch(`${API_BASE_URL}/iot/devices`, {
         headers: { Authorization: `Bearer ${token}` },
       });
+      if (devRes.status === 401) {
+        localStorage.removeItem("access_token");
+        localStorage.removeItem("token");
+        router.push("/login?redirect=/iot");
+        return;
+      }
       if (!devRes.ok) throw new Error("Failed to load smart gym devices.");
       const devData: IoTDevice[] = await devRes.json();
       setDevices(devData);
@@ -94,7 +103,7 @@ export default function SmartGymPage() {
       }
 
       // 2. Fetch Smart Assistant Recommendations
-      const assistRes = await fetch("http://localhost:8000/iot/assistant/recommendations", {
+      const assistRes = await fetch(`${API_BASE_URL}/iot/assistant/recommendations`, {
         headers: { Authorization: `Bearer ${token}` },
       });
       if (assistRes.ok) {
@@ -109,11 +118,11 @@ export default function SmartGymPage() {
   }
 
   async function fetchTelemetryForDevice(deviceId: number, token?: string) {
-    const authToken = token || localStorage.getItem("token");
+    const authToken = token || getAuthToken();
     if (!authToken) return;
 
     try {
-      const res = await fetch(`http://localhost:8000/iot/devices/${deviceId}/telemetry?limit=15`, {
+      const res = await fetch(`${API_BASE_URL}/iot/devices/${deviceId}/telemetry?limit=15`, {
         headers: { Authorization: `Bearer ${authToken}` },
       });
       if (res.ok) {
@@ -128,13 +137,13 @@ export default function SmartGymPage() {
   async function handleSendResistanceCommand(commandType: string, customVal?: number) {
     if (!selectedDevice) return;
     setActionMessage("");
-    const token = localStorage.getItem("token");
+    const token = getAuthToken();
     if (!token) return;
 
     const val = customVal !== undefined ? customVal : resistanceInput;
 
     try {
-      const res = await fetch(`http://localhost:8000/iot/devices/${selectedDevice.id}/command`, {
+      const res = await fetch(`${API_BASE_URL}/iot/devices/${selectedDevice.id}/command`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -171,11 +180,11 @@ export default function SmartGymPage() {
   async function handleSimulateTelemetryEvent() {
     if (!selectedDevice) return;
     setActionMessage("");
-    const token = localStorage.getItem("token");
+    const token = getAuthToken();
     if (!token) return;
 
     try {
-      const res = await fetch(`http://localhost:8000/iot/simulation/generate/${selectedDevice.id}`, {
+      const res = await fetch(`${API_BASE_URL}/iot/simulation/generate/${selectedDevice.id}`, {
         method: "POST",
         headers: { Authorization: `Bearer ${token}` },
       });
@@ -227,7 +236,7 @@ export default function SmartGymPage() {
           <div>
             <div className="flex items-center gap-2">
               <span className="rounded-full bg-cyan-950 border border-cyan-500/50 px-3 py-0.5 text-xs font-semibold text-cyan-300">
-                Phase 8 — Smart Gym Assistant + IoT
+                Smart Gym IoT Integration
               </span>
               <span className="rounded-full bg-slate-900 border border-slate-800 px-3 py-0.5 text-[11px] text-slate-400">
                 MQTT Topic Architecture
